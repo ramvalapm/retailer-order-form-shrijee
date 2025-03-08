@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to submit data to Google Sheets
     function submitToGoogleSheets(formData) {
         // Get your Google Apps Script Web App URL after deployment
-        const scriptURL = ''; // You'll need to replace this with your Google Apps Script URL
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzuhEuAgIWedcWXHOeD8eiVO1rPF7LL3qj82ZisC3sjIrk7H8FAr9N7vpWk-4oXn2xiWw/exec'; // You'll need to replace this with your Google Apps Script URL
         
         // Prepare the data to be sent
         const rowsToSend = formData.items.map(item => {
