@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const newOrderButton = document.getElementById('newOrderButton');
     const formContainer = document.querySelector('.container');
 
+    // Hide loading overlay initially (fix for immediate display issue)
+    loadingOverlay.classList.add('hidden');
+
     // Add row to order table
     addRowButton.addEventListener('click', function() {
         const newRow = document.createElement('tr');
@@ -97,15 +100,22 @@ document.addEventListener('DOMContentLoaded', function() {
             formData.items.push(item);
         });
         
-        // Send data to Google Sheets
-        submitToGoogleSheets(formData);
+        // Check if Google Sheet URL is configured
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzuhEuAgIWedcWXHOeD8eiVO1rPF7LL3qj82ZisC3sjIrk7H8FAr9N7vpWk-4oXn2xiWw/exec'; // You'll need to replace this with your Google Apps Script URL
+        
+        if (scriptURL && scriptURL.trim() !== '') {
+            // Send data to Google Sheets
+            submitToGoogleSheets(formData, scriptURL);
+        } else {
+            // For development/testing - just show summary without Google Sheets
+            console.log('Google Sheets URL not configured. Showing summary only.');
+            showOrderSummary(formData);
+            loadingOverlay.classList.add('hidden');
+        }
     });
 
     // Function to submit data to Google Sheets
-    function submitToGoogleSheets(formData) {
-        // Get your Google Apps Script Web App URL after deployment
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzuhEuAgIWedcWXHOeD8eiVO1rPF7LL3qj82ZisC3sjIrk7H8FAr9N7vpWk-4oXn2xiWw/exec'; // You'll need to replace this with your Google Apps Script URL
-        
+    function submitToGoogleSheets(formData, scriptURL) {
         // Prepare the data to be sent
         const rowsToSend = formData.items.map(item => {
             return [
@@ -147,12 +157,9 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch((error) => {
             console.error('Error:', error);
-            alert('There was an error submitting your order. Please try again.');
-            loadingOverlay.classList.add('hidden');
-            
-            // For demo/development - show summary even if Google Sheets submission fails
-            // In production, you would remove this line
+            alert('There was an error submitting to Google Sheets. Your order summary is displayed, but data may not be saved to the database.');
             showOrderSummary(formData);
+            loadingOverlay.classList.add('hidden');
         });
     }
 
