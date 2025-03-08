@@ -4,10 +4,182 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spectacles Order Form</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        h2 {
+            margin: 15px 0;
+            color: #3498db;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"], 
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        #saveButton {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        #cancelButton {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        #addRow {
+            background-color: #3498db;
+            color: white;
+            margin: 10px 0;
+        }
+
+        .remove-row {
+            background-color: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #summaryContainer {
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #orderSummary {
+            margin: 20px 0;
+        }
+
+        #newOrderButton {
+            background-color: #3498db;
+            color: white;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .summary-table th, .summary-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .summary-table th {
+            background-color: #f2f2f2;
+        }
+
+        .summary-info {
+            margin-bottom: 10px;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-info strong {
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="formContainer">
         <h1>Spectacles Order Form</h1>
         <form id="orderForm">
             <div class="form-group">
@@ -43,15 +215,15 @@
                         <tr class="item-row">
                             <td><input type="text" name="sku[]" required></td>
                             <td><input type="text" name="type[]" required></td>
-                            <td><input type="number" name="c1[]" min="0"></td>
-                            <td><input type="number" name="c2[]" min="0"></td>
-                            <td><input type="number" name="c3[]" min="0"></td>
-                            <td><input type="number" name="c4[]" min="0"></td>
-                            <td><input type="number" name="c5[]" min="0"></td>
-                            <td><input type="number" name="c6[]" min="0"></td>
-                            <td><input type="number" name="c7[]" min="0"></td>
-                            <td><input type="number" name="c8[]" min="0"></td>
-                            <td><input type="number" name="c9[]" min="0"></td>
+                            <td><input type="number" name="c1[]" min="0" value="0"></td>
+                            <td><input type="number" name="c2[]" min="0" value="0"></td>
+                            <td><input type="number" name="c3[]" min="0" value="0"></td>
+                            <td><input type="number" name="c4[]" min="0" value="0"></td>
+                            <td><input type="number" name="c5[]" min="0" value="0"></td>
+                            <td><input type="number" name="c6[]" min="0" value="0"></td>
+                            <td><input type="number" name="c7[]" min="0" value="0"></td>
+                            <td><input type="number" name="c8[]" min="0" value="0"></td>
+                            <td><input type="number" name="c9[]" min="0" value="0"></td>
                             <td><button type="button" class="remove-row">Remove</button></td>
                         </tr>
                     </tbody>
@@ -64,11 +236,6 @@
                 <button type="button" id="cancelButton">Cancel</button>
             </div>
         </form>
-        
-        <div id="loadingOverlay" class="hidden">
-            <div class="spinner"></div>
-            <p>Submitting order...</p>
-        </div>
     </div>
 
     <div id="summaryContainer" class="hidden">
@@ -77,6 +244,210 @@
         <button id="newOrderButton">Create New Order</button>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // Wait for the DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM elements
+            const orderForm = document.getElementById('orderForm');
+            const addRowButton = document.getElementById('addRow');
+            const orderTableBody = document.getElementById('orderTableBody');
+            const cancelButton = document.getElementById('cancelButton');
+            const summaryContainer = document.getElementById('summaryContainer');
+            const orderSummary = document.getElementById('orderSummary');
+            const newOrderButton = document.getElementById('newOrderButton');
+            const formContainer = document.getElementById('formContainer');
+
+            // Add row to order table
+            addRowButton.addEventListener('click', function() {
+                const newRow = document.createElement('tr');
+                newRow.className = 'item-row';
+                newRow.innerHTML = `
+                    <td><input type="text" name="sku[]" required></td>
+                    <td><input type="text" name="type[]" required></td>
+                    <td><input type="number" name="c1[]" min="0" value="0"></td>
+                    <td><input type="number" name="c2[]" min="0" value="0"></td>
+                    <td><input type="number" name="c3[]" min="0" value="0"></td>
+                    <td><input type="number" name="c4[]" min="0" value="0"></td>
+                    <td><input type="number" name="c5[]" min="0" value="0"></td>
+                    <td><input type="number" name="c6[]" min="0" value="0"></td>
+                    <td><input type="number" name="c7[]" min="0" value="0"></td>
+                    <td><input type="number" name="c8[]" min="0" value="0"></td>
+                    <td><input type="number" name="c9[]" min="0" value="0"></td>
+                    <td><button type="button" class="remove-row">Remove</button></td>
+                `;
+                orderTableBody.appendChild(newRow);
+            });
+
+            // Remove row event delegation
+            orderTableBody.addEventListener('click', function(e) {
+                if (e.target.classList.contains('remove-row')) {
+                    const row = e.target.closest('tr');
+                    if (orderTableBody.children.length > 1) {
+                        orderTableBody.removeChild(row);
+                    } else {
+                        // Clear the inputs instead of removing the last row
+                        const inputs = row.querySelectorAll('input');
+                        inputs.forEach(input => {
+                            if(input.type === 'number') {
+                                input.value = '0';
+                            } else {
+                                input.value = '';
+                            }
+                        });
+                    }
+                }
+            });
+
+            // Cancel button click handler
+            cancelButton.addEventListener('click', function() {
+                resetForm();
+            });
+
+            // New order button click handler
+            newOrderButton.addEventListener('click', function() {
+                summaryContainer.classList.add('hidden');
+                formContainer.classList.remove('hidden');
+                resetForm();
+            });
+
+            // Form submission handler
+            orderForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                const formData = {
+                    salesExec: document.getElementById('salesExec').value,
+                    retailerName: document.getElementById('retailerName').value,
+                    timestamp: new Date().toISOString(),
+                    items: []
+                };
+                
+                // Get all rows
+                const rows = orderTableBody.querySelectorAll('tr');
+                rows.forEach(row => {
+                    const item = {
+                        sku: row.querySelector('input[name="sku[]"]').value,
+                        type: row.querySelector('input[name="type[]"]').value,
+                        c1: row.querySelector('input[name="c1[]"]').value || '0',
+                        c2: row.querySelector('input[name="c2[]"]').value || '0',
+                        c3: row.querySelector('input[name="c3[]"]').value || '0',
+                        c4: row.querySelector('input[name="c4[]"]').value || '0',
+                        c5: row.querySelector('input[name="c5[]"]').value || '0',
+                        c6: row.querySelector('input[name="c6[]"]').value || '0',
+                        c7: row.querySelector('input[name="c7[]"]').value || '0',
+                        c8: row.querySelector('input[name="c8[]"]').value || '0',
+                        c9: row.querySelector('input[name="c9[]"]').value || '0'
+                    };
+                    formData.items.push(item);
+                });
+                
+                // For now, just show the summary (we'll implement Google Sheets later)
+                showOrderSummary(formData);
+                
+                // Save to localStorage for demonstration
+                saveToLocalStorage(formData);
+            });
+
+            // Function to save data to localStorage
+            function saveToLocalStorage(formData) {
+                // Get existing orders or initialize empty array
+                let orders = JSON.parse(localStorage.getItem('spectaclesOrders') || '[]');
+                
+                // Add new order
+                orders.push(formData);
+                
+                // Save back to localStorage
+                localStorage.setItem('spectaclesOrders', JSON.stringify(orders));
+                
+                console.log('Order saved to localStorage. To implement Google Sheets, add the necessary code later.');
+            }
+
+            // Function to show order summary
+            function showOrderSummary(formData) {
+                // Create summary HTML
+                let summaryHTML = `
+                    <div class="summary-info">
+                        <strong>Date:</strong> ${new Date().toLocaleString()}
+                    </div>
+                    <div class="summary-info">
+                        <strong>Sales Executive:</strong> ${formData.salesExec}
+                    </div>
+                    <div class="summary-info">
+                        <strong>Retailer:</strong> ${formData.retailerName}
+                    </div>
+                    <h3>Order Items</h3>
+                    <table class="summary-table">
+                        <thead>
+                            <tr>
+                                <th>SKU</th>
+                                <th>Type</th>
+                                <th>C1</th>
+                                <th>C2</th>
+                                <th>C3</th>
+                                <th>C4</th>
+                                <th>C5</th>
+                                <th>C6</th>
+                                <th>C7</th>
+                                <th>C8</th>
+                                <th>C9</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                formData.items.forEach(item => {
+                    summaryHTML += `
+                        <tr>
+                            <td>${item.sku}</td>
+                            <td>${item.type}</td>
+                            <td>${item.c1}</td>
+                            <td>${item.c2}</td>
+                            <td>${item.c3}</td>
+                            <td>${item.c4}</td>
+                            <td>${item.c5}</td>
+                            <td>${item.c6}</td>
+                            <td>${item.c7}</td>
+                            <td>${item.c8}</td>
+                            <td>${item.c9}</td>
+                        </tr>
+                    `;
+                });
+                
+                summaryHTML += `
+                        </tbody>
+                    </table>
+                    <p><strong>Note:</strong> This order has been saved locally. In the future, it will be sent to a central database.</p>
+                `;
+                
+                orderSummary.innerHTML = summaryHTML;
+                
+                // Hide form and show summary
+                formContainer.classList.add('hidden');
+                summaryContainer.classList.remove('hidden');
+            }
+
+            // Function to reset the form
+            function resetForm() {
+                document.getElementById('salesExec').value = '';
+                document.getElementById('retailerName').value = '';
+                
+                // Keep only one empty row
+                while (orderTableBody.children.length > 1) {
+                    orderTableBody.removeChild(orderTableBody.lastChild);
+                }
+                
+                // Clear the inputs in the first row
+                const firstRow = orderTableBody.querySelector('tr');
+                const inputs = firstRow.querySelectorAll('input');
+                inputs.forEach(input => {
+                    if(input.type === 'number') {
+                        input.value = '0';
+                    } else {
+                        input.value = '';
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
