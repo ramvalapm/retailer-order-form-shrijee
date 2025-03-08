@@ -4,342 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spectacles Order Form</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        select, input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        .table-container {
-            margin-top: 20px;
-            overflow-x: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        button {
-            padding: 10px 15px;
-            margin-right: 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .btn-save {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .btn-cancel {
-            background-color: #f44336;
-            color: white;
-        }
-        .btn-add {
-            background-color: #2196F3;
-            color: white;
-            margin-top: 10px;
-            padding: 5px 10px;
-        }
-        .success-message {
-            color: green;
-            text-align: center;
-            margin-top: 20px;
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <h1>Spectacles Order Form</h1>
         <form id="orderForm">
             <div class="form-group">
-                <label for="salesExecutive">Sales Executive *</label>
-                <select id="salesExecutive" required>
-                    <option value="">Select Sales Executive</option>
-                    <option value="John Doe">John Doe</option>
-                    <option value="Jane Smith">Jane Smith</option>
-                    <option value="Michael Brown">Michael Brown</option>
-                </select>
+                <label for="salesExec">Sales Executive Name:</label>
+                <input type="text" id="salesExec" name="salesExec" maxlength="100" required>
             </div>
             
             <div class="form-group">
-                <label for="retailer">Select Retailer *</label>
-                <select id="retailer" required>
-                    <option value="">Select Retailer</option>
-                    <option value="Vision Plus">Vision Plus</option>
-                    <option value="Eye Care Center">Eye Care Center</option>
-                    <option value="Spectacle World">Spectacle World</option>
-                </select>
+                <label for="retailerName">Retailer Name:</label>
+                <input type="text" id="retailerName" name="retailerName" maxlength="100" required>
             </div>
             
             <div class="form-group">
-                <label for="brand">Select Brand *</label>
-                <select id="brand" required>
-                    <option value="">Select Brand</option>
-                    <option value="Ray-Ban">Ray-Ban</option>
-                    <option value="Oakley">Oakley</option>
-                    <option value="Gucci">Gucci</option>
-                </select>
+                <h2>Order Items</h2>
+                <table id="orderTable">
+                    <thead>
+                        <tr>
+                            <th>SKU</th>
+                            <th>Type</th>
+                            <th>C1</th>
+                            <th>C2</th>
+                            <th>C3</th>
+                            <th>C4</th>
+                            <th>C5</th>
+                            <th>C6</th>
+                            <th>C7</th>
+                            <th>C8</th>
+                            <th>C9</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderTableBody">
+                        <tr class="item-row">
+                            <td><input type="text" name="sku[]" required></td>
+                            <td><input type="text" name="type[]" required></td>
+                            <td><input type="number" name="c1[]" min="0"></td>
+                            <td><input type="number" name="c2[]" min="0"></td>
+                            <td><input type="number" name="c3[]" min="0"></td>
+                            <td><input type="number" name="c4[]" min="0"></td>
+                            <td><input type="number" name="c5[]" min="0"></td>
+                            <td><input type="number" name="c6[]" min="0"></td>
+                            <td><input type="number" name="c7[]" min="0"></td>
+                            <td><input type="number" name="c8[]" min="0"></td>
+                            <td><input type="number" name="c9[]" min="0"></td>
+                            <td><button type="button" class="remove-row">Remove</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" id="addRow">Add Row</button>
             </div>
             
-            <div class="form-group">
-                <label for="type">Select Type *</label>
-                <select id="type" required>
-                    <option value="">Select Type</option>
-                    <option value="Sunglasses">Sunglasses</option>
-                    <option value="Reading Glasses">Reading Glasses</option>
-                    <option value="Computer Glasses">Computer Glasses</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label>Enter Quantity *</label>
-                <div class="table-container">
-                    <table id="quantityTable">
-                        <thead>
-                            <tr id="headerRow">
-                                <th>SKU</th>
-                                <th>Black</th>
-                                <th>Brown</th>
-                                <th>Blue</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><input type="text" placeholder="Enter SKU" required></td>
-                                <td><input type="number" min="0" placeholder="0"></td>
-                                <td><input type="number" min="0" placeholder="0"></td>
-                                <td><input type="number" min="0" placeholder="0"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <button type="button" class="btn-add" id="addRow">Add Row</button>
-                <button type="button" class="btn-add" id="removeRow">Remove Row</button>
-                <button type="button" class="btn-add" id="addColumn">Add Column</button>
-                <button type="button" class="btn-add" id="removeColumn">Remove Column</button>
-            </div>
-            
-            <div style="margin-top: 20px; text-align: center;">
-                <button type="submit" class="btn-save">Save Order</button>
-                <button type="button" class="btn-cancel" id="cancelBtn">Cancel</button>
+            <div class="form-actions">
+                <button type="submit" id="saveButton">Save Order</button>
+                <button type="button" id="cancelButton">Cancel</button>
             </div>
         </form>
         
-        <div class="success-message" id="successMessage">
-            Order saved successfully!
+        <div id="loadingOverlay" class="hidden">
+            <div class="spinner"></div>
+            <p>Submitting order...</p>
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add Row Button
-            document.getElementById('addRow').addEventListener('click', function() {
-                const table = document.getElementById('quantityTable');
-                const headerRow = document.getElementById('headerRow');
-                const columnCount = headerRow.getElementsByTagName('th').length;
-                
-                const newRow = document.createElement('tr');
-                
-                // First column is for SKU text input
-                let cell = document.createElement('td');
-                let input = document.createElement('input');
-                input.type = 'text';
-                input.placeholder = 'Enter SKU';
-                input.required = true;
-                cell.appendChild(input);
-                newRow.appendChild(cell);
-                
-                // Remaining columns are for quantity inputs
-                for (let i = 1; i < columnCount; i++) {
-                    cell = document.createElement('td');
-                    input = document.createElement('input');
-                    input.type = 'number';
-                    input.min = '0';
-                    input.placeholder = '0';
-                    cell.appendChild(input);
-                    newRow.appendChild(cell);
-                }
-                
-                table.getElementsByTagName('tbody')[0].appendChild(newRow);
-            });
-            
-            // Remove Row Button
-            document.getElementById('removeRow').addEventListener('click', function() {
-                const tbody = document.getElementById('quantityTable').getElementsByTagName('tbody')[0];
-                if (tbody.rows.length > 1) {
-                    tbody.deleteRow(tbody.rows.length - 1);
-                }
-            });
-            
-            // Add Column Button
-            document.getElementById('addColumn').addEventListener('click', function() {
-                const headerRow = document.getElementById('headerRow');
-                const colorName = prompt('Enter new variation name:', 'New Variation');
-                
-                if (colorName) {
-                    // Add header
-                    const th = document.createElement('th');
-                    th.textContent = colorName;
-                    headerRow.appendChild(th);
-                    
-                    // Add cell to each row
-                    const tbody = document.getElementById('quantityTable').getElementsByTagName('tbody')[0];
-                    for (let i = 0; i < tbody.rows.length; i++) {
-                        const cell = document.createElement('td');
-                        const input = document.createElement('input');
-                        input.type = 'number';
-                        input.min = '0';
-                        input.placeholder = '0';
-                        cell.appendChild(input);
-                        tbody.rows[i].appendChild(cell);
-                    }
-                }
-            });
-            
-            // Remove Column Button
-            document.getElementById('removeColumn').addEventListener('click', function() {
-                const headerRow = document.getElementById('headerRow');
-                if (headerRow.cells.length > 2) {
-                    // Remove last header
-                    headerRow.deleteCell(headerRow.cells.length - 1);
-                    
-                    // Remove last cell from each row
-                    const tbody = document.getElementById('quantityTable').getElementsByTagName('tbody')[0];
-                    for (let i = 0; i < tbody.rows.length; i++) {
-                        tbody.rows[i].deleteCell(tbody.rows[i].cells.length - 1);
-                    }
-                }
-            });
-            
-            // Cancel Button
-            document.getElementById('cancelBtn').addEventListener('click', function() {
-                document.getElementById('orderForm').reset();
-                
-                // Reset table to initial state
-                const tbody = document.getElementById('quantityTable').getElementsByTagName('tbody')[0];
-                while (tbody.rows.length > 1) {
-                    tbody.deleteRow(tbody.rows.length - 1);
-                }
-                
-                // Clear inputs in the first row
-                const firstRow = tbody.rows[0];
-                const inputs = firstRow.getElementsByTagName('input');
-                for (let i = 0; i < inputs.length; i++) {
-                    inputs[i].value = '';
-                }
-            });
-            
-            // Form Submit
-            document.getElementById('orderForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Get form data
-                const salesExecutive = document.getElementById('salesExecutive').value;
-                const retailer = document.getElementById('retailer').value;
-                const brand = document.getElementById('brand').value;
-                const type = document.getElementById('type').value;
-                
-                // Get table data
-                const table = document.getElementById('quantityTable');
-                const headerRow = document.getElementById('headerRow');
-                const tbody = table.getElementsByTagName('tbody')[0];
-                
-                // Get column headers (variations)
-                const variations = [];
-                for (let i = 1; i < headerRow.cells.length; i++) {
-                    variations.push(headerRow.cells[i].textContent);
-                }
-                
-                // Get SKUs and quantities
-                const items = [];
-                for (let i = 0; i < tbody.rows.length; i++) {
-                    const row = tbody.rows[i];
-                    const sku = row.cells[0].getElementsByTagName('input')[0].value;
-                    
-                    if (sku) {
-                        const quantities = {};
-                        for (let j = 1; j < row.cells.length; j++) {
-                            const quantity = row.cells[j].getElementsByTagName('input')[0].value;
-                            quantities[variations[j-1]] = quantity || '0';
-                        }
-                        
-                        items.push({
-                            sku: sku,
-                            quantities: quantities
-                        });
-                    }
-                }
-                
-                // Prepare data for Google Sheets
-                const orderData = {
-                    timestamp: new Date().toISOString(),
-                    salesExecutive: salesExecutive,
-                    retailer: retailer,
-                    brand: brand,
-                    type: type,
-                    items: JSON.stringify(items)
-                };
-                
-                // Send to Google Sheets using Google Apps Script Web App
-                const scriptURL = 'https://script.google.com/macros/s/AKfycbzxvv2OqOyiQ45u7I3F41es7qszXbzGDW0preIX_FtJ5iXEdD6Nw9kv7XxNU6_721yk/exec';  // You'll get this after setting up Google Apps Script
-                
-                fetch(scriptURL, {
-                    method: 'POST',
-                    body: JSON.stringify(orderData),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => {
-                    console.log('Success!', response);
-                    document.getElementById('successMessage').style.display = 'block';
-                    setTimeout(() => {
-                        document.getElementById('successMessage').style.display = 'none';
-                    }, 3000);
-                    
-                    // Reset form
-                    document.getElementById('cancelBtn').click();
-                })
-                .catch(error => console.error('Error!', error.message));
-            });
-        });
-    </script>
+    <div id="summaryContainer" class="hidden">
+        <h2>Order Summary</h2>
+        <div id="orderSummary"></div>
+        <button id="newOrderButton">Create New Order</button>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
